@@ -7,9 +7,9 @@ load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 # 受信するテキストチャンネルIDを指定（送信元）
-SOURCE_CHANNEL_ID = os.getenv("SOURCE_CHANNEL_ID")  # 受信元のチャンネルIDを取得
+SOURCE_CHANNEL_ID = int(os.getenv("SOURCE_CHANNEL_ID"))  # 受信元のチャンネルIDを取得
 # メッセージを転送するテキストチャンネルIDを指定（送信先）
-TARGET_CHANNEL_ID = os.getenv("TARGET_CHANNEL_ID") # 転送先のチャンネルIDを取得
+TARGET_CHANNEL_ID = int(os.getenv("TARGET_CHANNEL_ID")) # 転送先のチャンネルIDを取得
 
 # Discordクライアントのインスタンスを作成
 intents = discord.Intents.default()
