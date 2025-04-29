@@ -18,6 +18,7 @@ if SOURCE_CHANNEL_IDS:
         split_values = SOURCE_CHANNEL_IDS.split(',')
         # 分割された値を整数に変換
         source_channel_list = [int(item) for item in split_values if item.strip()]
+        print("変換されたリスト:", source_channel_list)
     except ValueError:
         print("Error: 環境変数に整数以外の値が含まれています。")
 else:
