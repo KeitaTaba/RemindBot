@@ -14,9 +14,10 @@ TARGET_CHANNEL_ID = int(os.getenv("TARGET_CHANNEL_ID")) # 転送先のチャン�
 
 if SOURCE_CHANNEL_IDS:
     try:
-        # カンマで分割してリストに変換し、さらに各要素を int に変換
-
-        source_channel_list =[int(item) for item in SOURCE_CHANNEL_IDS.split(',')]
+        # カンマで分割し、1つだけの場合もリストとして処理
+        split_values = SOURCE_CHANNEL_IDS.split(',')
+        # 分割された値を整数に変換
+        source_channel_list = [int(item) for item in split_values if item.strip()]
     except ValueError:
         print("Error: 環境変数に整数以外の値が含まれています。")
 else:
