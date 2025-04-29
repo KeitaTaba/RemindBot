@@ -46,7 +46,7 @@ async def on_message(message):
         return
 
     # メッセージが指定された送信元チャンネルから送られた場合
-    if source_channel_list[message.channel.id]:
+    if message.channel.id in source_channel_list:
         # 送信先チャンネルを取得
         target_channel = client.get_channel(TARGET_CHANNEL_ID)
         if not target_channel:
