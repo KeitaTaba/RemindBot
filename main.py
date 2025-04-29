@@ -2,7 +2,6 @@ import discord
 import asyncio
 import os
 from dotenv import load_dotenv
-# やるべきこと→受信するチャンネルが複数の場合の実装、getenvで取得するチャンネルIDを配列に格納する実装
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -33,7 +32,7 @@ client = discord.Client(intents=intents)
 # リプライの追跡用辞書 {メッセージID: リプライがついたかどうか（True/False）}
 message_tracker = {}
 # 遅延時間（秒単位）
-DELAY_SECONDS = 10
+DELAY_SECONDS = 900
 
 @client.event
 async def on_ready():
