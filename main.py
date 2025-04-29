@@ -2,14 +2,25 @@ import discord
 import asyncio
 import os
 from dotenv import load_dotenv
+# やるべきこと→受信するチャンネルが複数の場合の実装、getenvで取得するチャンネルIDを配列に格納する実装
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 # 受信するテキストチャンネルIDを指定（送信元）
-SOURCE_CHANNEL_ID = int(os.getenv("SOURCE_CHANNEL_ID"))  # 受信元のチャンネルIDを取得
+SOURCE_CHANNEL_IDS = os.getenv("SOURCE_CHANNEL_ID")  # 受信元のチャンネルIDを取得
 # メッセージを転送するテキストチャンネルIDを指定（送信先）
 TARGET_CHANNEL_ID = int(os.getenv("TARGET_CHANNEL_ID")) # 転送先のチャンネルIDを取得
+
+if SOURCE_CHANNEL_IDS:
+    try:
+        # カンマで分割してリストに変換し、さらに各要素を int に変換
+
+        source_channel_list =[int(item) for item in SOURCE_CHANNEL_IDS.split(',')]
+    except ValueError:
+        print("Error: 環境変数に整数以外の値が含まれています。")
+else:
+    print("Error: 環境変数'SOURCE_CHANNEL_ID'が見つかりません。")
 
 # Discordクライアントのインスタンスを作成
 intents = discord.Intents.default()
@@ -33,7 +44,7 @@ async def on_message(message):
         return
 
     # メッセージが指定された送信元チャンネルから送られた場合
-    if message.channel.id == SOURCE_CHANNEL_ID:
+    if source_channel_list(message.channel.id):
         # 送信先チャンネルを取得
         target_channel = client.get_channel(TARGET_CHANNEL_ID)
         if not target_channel:
@@ -49,7 +60,8 @@ async def on_message(message):
         # リプライ元のメッセージが追跡対象であれば、リプライがついたことを記録
         if original_message_id in message_tracker:
             message_tracker[original_message_id] = True
-            print(f"リプライがつきました: メッセージID {original_message_id}")
+            # ここはテスト用で使う部分のためコメントアウト
+            # print(f"リプライがつきました: メッセージID {original_message_id}")
    # 通常のメッセージの場合
     else:
         # 通常のメッセージを追跡対象に追加
@@ -57,8 +69,9 @@ async def on_message(message):
         message_tracker[original_message_id] = False
 
         # ユーザーからのメッセージを受け取り、即座に応答
-        await message.channel.send(f"メッセージを受け取りました: `{message.content}`")
-        await message.channel.send(f"{DELAY_SECONDS}秒後に同じメッセージを送信します...")
+        # ここはテスト用で使う部分のためコメントアウト
+        # await message.channel.send(f"メッセージを受け取りました: `{message.content}`")
+        # await message.channel.send(f"{DELAY_SECONDS}秒後に同じメッセージを送信します...")
 
         # ユーザー名とチャンネルリンクを取得
         user_name = message.author.display_name
