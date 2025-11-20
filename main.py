@@ -32,7 +32,7 @@ client = discord.Client(intents=intents)
 # リプライの追跡用辞書 {メッセージID: リプライがついたかどうか（True/False）}
 message_tracker = {}
 # 遅延時間（秒単位）
-DELAY_SECONDS = 900
+DELAY_SECONDS = 600
 
 @client.event
 async def on_ready():
